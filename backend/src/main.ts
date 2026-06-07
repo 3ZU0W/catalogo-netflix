@@ -28,9 +28,9 @@ async function bootstrap() {
       fechaNacimiento: '1990-01-01',
       rol: 'admin',
     });
-    console.log('✅ Usuario admin creado');
+    console.log('Usuario admin creado');
   } catch {
-    console.log('ℹ️  Admin ya existe');
+    console.log('Admin ya existe');
   }
 
   const { DataSource } = await import('typeorm');

@@ -15,6 +15,4 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/netflick
-    depends_on:
-      - postgres
+      DATABASE_URL: postgresql://postgres:qCUIVRmHswBKtenCjAKqxEKIfWflIZEQ@acela.proxy.rlwy.net:40714/railway
