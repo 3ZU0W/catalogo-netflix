@@ -20,7 +20,8 @@ const Navbar = ({
   const { usuario, logout } = useAuth();
   const esAdmin = usuario?.rol === "admin";
   const [searchOpen, setSearchOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [hamburguesaOpen, setHamburguesaOpen] = useState(false);
+  const [avatarOpen, setAvatarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -50,11 +51,11 @@ const Navbar = ({
           padding: 0, flexShrink: 0,
         }}>NETFLICK</button>
 
-        {/* Desktop Links — solo en pantallas grandes */}
+        {/* Desktop Links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center", marginLeft: 32 }}>
-            <NavBtn onClick={onVerCatalogo}>Inicio</NavBtn>
-            <NavBtn onClick={onVerCatalogo}>Cartelera</NavBtn>
+            <NavBtn onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Inicio</NavBtn>
+            <NavBtn onClick={() => document.getElementById("cartelera")?.scrollIntoView({ behavior: "smooth" })}>Cartelera</NavBtn>
             {usuario && !esAdmin && (
               <NavBtn onClick={onMisReservas}>Reservas</NavBtn>
             )}
@@ -85,15 +86,49 @@ const Navbar = ({
 
         {/* Derecha */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {/* Botón hamburguesa — solo móvil */}
+
+          {/* Hamburguesa — solo móvil, con su propio menú */}
           {isMobile && usuario && (
-            <button onClick={() => setMenuOpen(!menuOpen)} style={{
-              background: "none", border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 6, cursor: "pointer",
-              color: "#fff", fontSize: 18,
-              padding: "4px 10px",
-            }}>☰</button>
+            <div style={{ position: "relative" }}>
+              <button onClick={() => { setHamburguesaOpen(!hamburguesaOpen); setAvatarOpen(false); }} style={{
+                background: "none", border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 6, cursor: "pointer",
+                color: "#fff", fontSize: 18,
+                padding: "4px 10px",
+              }}>☰</button>
+
+              {hamburguesaOpen && (
+                <div style={{
+                  position: "absolute", top: 44, right: 0,
+                  background: "#222", border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 8, overflow: "hidden",
+                  minWidth: 190, zIndex: 200,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+                }}>
+                  <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setHamburguesaOpen(false); }} style={menuItemStyle}>Inicio</button>
+                  <button onClick={() => { document.getElementById("cartelera")?.scrollIntoView({ behavior: "smooth" }); setHamburguesaOpen(false); }} style={menuItemStyle}>Cartelera</button>
+                  {!esAdmin && (
+                    <button onClick={() => { onMisReservas(); setHamburguesaOpen(false); }} style={menuItemStyle}>Mis Reservas</button>
+                  )}
+                  {esAdmin && (
+                    <>
+                      <button onClick={() => { setModoAdmin(!modoAdmin); setHamburguesaOpen(false); }} style={menuItemStyle}>
+                        {modoAdmin ? "✓ Admin ON" : "Modo Admin"}
+                      </button>
+                      {modoAdmin && (
+                        <button onClick={() => { onAgregarPelicula(); setHamburguesaOpen(false); }} style={menuItemStyle}>
+                          + Agregar Película
+                        </button>
+                      )}
+                      <button onClick={() => { onEstadisticas(); setHamburguesaOpen(false); }} style={menuItemStyle}>Estadísticas</button>
+                      <button onClick={() => { onLog(); setHamburguesaOpen(false); }} style={menuItemStyle}>Registros</button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           )}
+
           {/* Búsqueda */}
           {searchOpen ? (
             <input
@@ -114,13 +149,13 @@ const Navbar = ({
             <button onClick={() => setSearchOpen(true)} style={{
               background: "none", border: "none", cursor: "pointer",
               color: "#e5e5e5", fontSize: 16,
-            }}>🔍</button>
+            }}>buscar</button>
           )}
 
-          {/* Avatar + menú desplegable (desktop y móvil) */}
+          {/* Avatar — su propio menú separado */}
           {usuario && (
             <div style={{ position: "relative" }}>
-              <button onClick={() => setMenuOpen(!menuOpen)} style={{
+              <button onClick={() => { setAvatarOpen(!avatarOpen); setHamburguesaOpen(false); }} style={{
                 display: "flex", alignItems: "center", gap: 6,
                 background: "none", border: "none", cursor: "pointer",
               }}>
@@ -145,7 +180,7 @@ const Navbar = ({
                 )}
               </button>
 
-              {menuOpen && (
+              {avatarOpen && (
                 <div style={{
                   position: "absolute", top: 44, right: 0,
                   background: "#222", border: "1px solid rgba(255,255,255,0.1)",
@@ -158,47 +193,18 @@ const Navbar = ({
                     <p style={{ margin: 0, fontSize: 11, color: "#666" }}>{usuario.email}</p>
                     {esAdmin && <span style={{ background: "#e50914", color: "#fff", fontSize: 9, padding: "1px 5px", borderRadius: 3, fontWeight: 700 }}>ADMIN</span>}
                   </div>
-
-                  {/* En móvil mostramos todos los links aquí */}
-                  {isMobile && (
-                    <>
-                      <button onClick={() => { onVerCatalogo(); setMenuOpen(false); }} style={menuItemStyle}>Inicio</button>
-                      <button onClick={() => { onVerCatalogo(); setMenuOpen(false); }} style={menuItemStyle}>Cartelera</button>
-                      {!esAdmin && (
-                        <button onClick={() => { onMisReservas(); setMenuOpen(false); }} style={menuItemStyle}>Mis Reservas</button>
-                      )}
-                      {esAdmin && (
-                        <>
-                          <button onClick={() => { setModoAdmin(!modoAdmin); setMenuOpen(false); }} style={menuItemStyle}>
-                            {modoAdmin ? "✓ Admin ON" : "Modo Admin"}
-                          </button>
-                          {modoAdmin && (
-                            <button onClick={() => { onAgregarPelicula(); setMenuOpen(false); }} style={menuItemStyle}>
-                              + Agregar Película
-                            </button>
-                          )}
-                          <button onClick={() => { onEstadisticas(); setMenuOpen(false); }} style={menuItemStyle}>Estadísticas</button>
-                          <button onClick={() => { onLog(); setMenuOpen(false); }} style={menuItemStyle}>Registros</button>
-                        </>
-                      )}
-                      <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-                    </>
-                  )}
-
-                  {/* En desktop solo reservas */}
                   {!isMobile && !esAdmin && (
-                    <button onClick={() => { onMisReservas(); setMenuOpen(false); }} style={menuItemStyle}>
+                    <button onClick={() => { onMisReservas(); setAvatarOpen(false); }} style={menuItemStyle}>
                       Mis Reservas
                     </button>
                   )}
                   {!isMobile && esAdmin && (
                     <>
-                      <button onClick={() => { onEstadisticas(); setMenuOpen(false); }} style={menuItemStyle}>Estadísticas</button>
-                      <button onClick={() => { onLog(); setMenuOpen(false); }} style={menuItemStyle}>Registros</button>
+                      <button onClick={() => { onEstadisticas(); setAvatarOpen(false); }} style={menuItemStyle}>Estadísticas</button>
+                      <button onClick={() => { onLog(); setAvatarOpen(false); }} style={menuItemStyle}>Registros</button>
                     </>
                   )}
-
-                  <button onClick={() => { logout(); setMenuOpen(false); }} style={{ ...menuItemStyle, color: "#e50914" }}>
+                  <button onClick={() => { logout(); setAvatarOpen(false); }} style={{ ...menuItemStyle, color: "#e50914" }}>
                     Cerrar sesión
                   </button>
                 </div>

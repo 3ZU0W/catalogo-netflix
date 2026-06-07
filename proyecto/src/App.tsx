@@ -87,7 +87,7 @@ const InnerApp = () => {
   const SeccionPeliculas = ({
     titulo, icono, lista, color,
   }: { titulo: string; icono?: string; lista: Pelicula[]; color: string }) => (
-    <section style={{ marginBottom: 52 }}>
+    <section id={titulo === "EN CARTELERA" ? "cartelera" : undefined} style={{ marginBottom: 52 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <span style={{ fontSize: 22 }}>{icono}</span>
         <h2 style={{
