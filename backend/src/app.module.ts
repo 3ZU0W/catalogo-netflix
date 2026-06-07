@@ -11,6 +11,7 @@ import { Reserva } from './reservas/reserva.entity';
 import { LogAcceso } from './auth/log-acceso.entity';
 import { ComentariosModule } from './comentarios/comentarios.module';
 import { Comentario } from './comentarios/comentario.entity';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { Comentario } from './comentarios/comentario.entity';
     PeliculasModule,
     ReservasModule,
     ComentariosModule,
+    ChatModule, 
   ],
 })
 export class AppModule {}
