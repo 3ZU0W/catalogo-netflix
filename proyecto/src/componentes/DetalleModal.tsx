@@ -35,22 +35,22 @@ const DetalleModal = ({
           border: "1px solid rgba(255,255,255,0.06)",
         }} onClick={e => e.stopPropagation()}>
 
-          <div style={{
-            position: "relative", height: 280, overflow: "hidden",
-            borderRadius: "12px 12px 0 0",
-            backgroundImage: pelicula.portada
-              ? `linear-gradient(to bottom, transparent 40%, #181818 100%), url(${pelicula.portada})`
-              : undefined,
-            backgroundSize: "cover", backgroundPosition: "center top",
-            background: pelicula.portada ? undefined : "linear-gradient(135deg, #1a1a2e, #16213e)",
-          }}>
+            <div style={{
+              position: "relative", height: 280, overflow: "hidden",
+              borderRadius: "12px 12px 0 0",
+              background: pelicula.portada
+                ? `linear-gradient(to bottom, transparent 40%, #181818 100%), url(${pelicula.portada})`
+                : "linear-gradient(135deg, #1a1a2e, #16213e)",
+              backgroundSize: "cover",
+              backgroundPosition: "center bottom",
+            }}>
             <div style={{ position: "absolute", top: 16, left: 16 }}>
               <span style={{
                 background: esProximo ? "rgba(245,166,35,0.9)" : "rgba(229,9,20,0.9)",
                 color: "#fff", fontSize: 11, fontWeight: 700,
                 padding: "4px 10px", borderRadius: 4, letterSpacing: 1,
               }}>
-                {esProximo ? `🗓 ESTRENO ${pelicula.fechaEstreno}` : "▶ EN CARTELERA"}
+                {esProximo ? `ESTRENO ${pelicula.fechaEstreno}` : "EN CARTELERA"}
               </span>
             </div>
             {pelicula.soloMayores18 && (
