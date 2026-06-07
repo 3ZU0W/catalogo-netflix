@@ -302,7 +302,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
         <div style={{ marginBottom: 20 }}>
           <ReCAPTCHA
             ref={captchaRef}
-            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            sitekey="6LejZhItAAAAAE84EoQhqyrHzr9erD6fLTmtbIWn"
             onChange={(token) => setCaptchaToken(token)}
             onExpired={() => setCaptchaToken(null)}
             theme="dark"
