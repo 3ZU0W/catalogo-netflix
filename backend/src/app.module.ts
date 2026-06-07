@@ -22,7 +22,9 @@ import { Comentario } from './comentarios/comentario.entity';
             url: process.env.DATABASE_URL,
             entities: [Usuario, Pelicula, Reserva, LogAcceso, Comentario],
             synchronize: true,
-            ssl: { rejectUnauthorized: false },
+            ssl: process.env.DATABASE_URL?.includes('railway') 
+              ? { rejectUnauthorized: false } 
+              : false,
           }
         : {
             type: 'better-sqlite3',
