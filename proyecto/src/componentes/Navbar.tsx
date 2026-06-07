@@ -193,11 +193,6 @@ const Navbar = ({
                     <p style={{ margin: 0, fontSize: 11, color: "#666" }}>{usuario.email}</p>
                     {esAdmin && <span style={{ background: "#e50914", color: "#fff", fontSize: 9, padding: "1px 5px", borderRadius: 3, fontWeight: 700 }}>ADMIN</span>}
                   </div>
-                  {!isMobile && !esAdmin && (
-                    <button onClick={() => { onMisReservas(); setAvatarOpen(false); }} style={menuItemStyle}>
-                      Mis Reservas
-                    </button>
-                  )}
                   {!isMobile && esAdmin && (
                     <>
                       <button onClick={() => { onEstadisticas(); setAvatarOpen(false); }} style={menuItemStyle}>Estadísticas</button>
