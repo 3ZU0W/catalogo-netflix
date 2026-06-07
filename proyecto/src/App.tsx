@@ -167,9 +167,9 @@ const InnerApp = () => {
             </p>
             <div style={{ display: "flex", gap: 32, justifyContent: "center", marginBottom: 40 }}>
               {[
-                { num: 5, label: "En cartelera" },
-                { num: 2, label: "Próximos estrenos" },
-                { num: 18, label: "Funciones diarias" },
+                { num: 1, label: "En cartelera" },
+                { num: 0, label: "Próximos estrenos" },
+                { num: 3, label: "Funciones diarias" },
               ].map(stat => (
                 <div key={stat.label} style={{ textAlign: "center" }}>
                   <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 42, color: "#e50914", margin: 0, lineHeight: 1 }}>
