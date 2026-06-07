@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflick-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netflick-backend
+  template:
+    metadata:
+      labels:
+        app: netflick-backend
+    spec:
+      containers:
+      - name: netflick-backend
+        image: netflick-backend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://postgres:postgres@postgres-service:5432/netflick"
