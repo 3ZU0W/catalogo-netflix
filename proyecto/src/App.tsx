@@ -105,7 +105,7 @@ const InnerApp = () => {
       ) : (
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))",
+          gridTemplateColumns: window.innerWidth < 768 ? "repeat(2, 1fr)" : "repeat(auto-fill, minmax(170px, 1fr))",
           gap: 16,
         }}>
           {lista.map(p => (
