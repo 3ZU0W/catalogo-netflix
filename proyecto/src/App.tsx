@@ -33,7 +33,7 @@ const InnerApp = () => {
   const [showLog, setShowLog] = useState(false);
 
   useEffect(() => {
-    api.getPeliculas().then(data => setPeliculas(data));
+  api.getPeliculas().then(data => setPeliculas(data));
   }, []);
 
   useEffect(() => {
@@ -167,9 +167,9 @@ const InnerApp = () => {
             </p>
             <div style={{ display: "flex", gap: 32, justifyContent: "center", marginBottom: 40 }}>
               {[
-                { num: 1, label: "En cartelera" },
-                { num: 0, label: "Próximos estrenos" },
-                { num: 3, label: "Funciones diarias" },
+                { num: peliculas.filter(p => p.activo && p.estado === "en_cartelera").length, label: "En cartelera" },
+                { num: peliculas.filter(p => p.activo && p.estado === "proximo_estreno").length, label: "Próximos estrenos" },
+                { num: peliculas.filter(p => p.activo).reduce((s, p) => s + p.horarios.length, 0), label: "Funciones diarias" },
               ].map(stat => (
                 <div key={stat.label} style={{ textAlign: "center" }}>
                   <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 42, color: "#e50914", margin: 0, lineHeight: 1 }}>
