@@ -1,0 +1,196 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+
+const Navbar = ({
+  busqueda, setBusqueda,
+  modoAdmin, setModoAdmin,
+  onVerCatalogo, onAgregarPelicula,
+  onMisReservas, onEstadisticas, onLog,
+}: {
+  busqueda: string;
+  setBusqueda: (v: string) => void;
+  modoAdmin: boolean;
+  setModoAdmin: (v: boolean) => void;
+  onVerCatalogo: () => void;
+  onAgregarPelicula: () => void;
+  onMisReservas: () => void;
+  onEstadisticas: () => void;
+  onLog: () => void;
+}) => {
+  const { usuario, logout } = useAuth();
+  const esAdmin = usuario?.rol === "admin";
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <nav style={{
+      position: "sticky", top: 0, zIndex: 100,
+      background: "linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.88) 100%)",
+      backdropFilter: "blur(14px)",
+      borderBottom: "1px solid rgba(255,255,255,0.06)",
+      padding: "0 32px",
+    }}>
+      <div style={{
+        maxWidth: 1280, margin: "0 auto",
+        display: "flex", alignItems: "center",
+        justifyContent: "space-between", height: 64,
+      }}>
+        {/* Logo */}
+        <button onClick={onVerCatalogo} style={{
+          background: "none", border: "none", cursor: "pointer",
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: 28, color: "#e50914", letterSpacing: 3,
+          padding: 0, marginRight: 32,
+        }}>NETFLICK</button>
+
+        {/* Links */}
+        <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center" }}>
+          <NavBtn onClick={onVerCatalogo}>Inicio</NavBtn>
+          <NavBtn onClick={onVerCatalogo}>Cartelera</NavBtn>
+
+          {usuario && !esAdmin && (
+            <NavBtn onClick={onMisReservas}>Reservas</NavBtn>
+          )}
+
+          {esAdmin && (
+            <>
+              <button
+                onClick={() => setModoAdmin(!modoAdmin)}
+                style={{
+                  background: modoAdmin ? "#e50914" : "none",
+                  border: modoAdmin ? "none" : "1px solid rgba(229,9,20,0.4)",
+                  borderRadius: 4, cursor: "pointer",
+                  color: modoAdmin ? "#fff" : "#e50914",
+                  fontSize: 13, fontWeight: 600, fontFamily: "inherit",
+                  padding: "2px 12px", transition: "all 0.2s",
+                }}
+              >{modoAdmin ? "✓ Admin ON" : "Admin"}</button>
+
+              {modoAdmin && (
+                <button onClick={onAgregarPelicula} style={{
+                  background: "#e50914", border: "none", borderRadius: 4,
+                  cursor: "pointer", color: "#fff",
+                  fontSize: 13, fontWeight: 600, fontFamily: "inherit",
+                  padding: "3px 14px",
+                }}>+ Película</button>
+              )}
+
+              <NavBtn onClick={onEstadisticas}>Estadísticas</NavBtn>
+              <NavBtn onClick={onLog}>Registros</NavBtn>
+            </>
+          )}
+        </div>
+
+        {/* Derecha: búsqueda + usuario */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {searchOpen ? (
+            <input
+              autoFocus
+              value={busqueda}
+              onChange={e => setBusqueda(e.target.value)}
+              placeholder="Buscar película..."
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 4, padding: "6px 14px",
+                color: "#fff", fontSize: 13, outline: "none", width: 200,
+              }}
+              onBlur={() => { if (!busqueda) setSearchOpen(false); }}
+            />
+          ) : (
+            <button onClick={() => setSearchOpen(true)} style={{
+              background: "none", border: "none", cursor: "pointer",
+              color: "#e5e5e5", fontSize: 14,
+            }}>BUSCAR 🔍</button>
+          )}
+
+          {usuario ? (
+            <div style={{ position: "relative" }}>
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8,
+                  background: "none", border: "none", cursor: "pointer",
+                }}
+              >
+                <div style={{
+                  width: 34, height: 34, borderRadius: "50%",
+                  background: usuario.rol === "admin" ? "#e50914" : "#333",
+                  border: "2px solid rgba(255,255,255,0.15)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontWeight: 700, fontSize: 13, color: "#fff",
+                }}>{usuario.username[0].toUpperCase()}</div>
+                <span style={{ color: "#ccc", fontSize: 13 }}>{usuario.username}</span>
+                {usuario.rol === "admin" && (
+                  <span style={{
+                    background: "#e50914", color: "#fff",
+                    fontSize: 9, padding: "1px 5px", borderRadius: 3,
+                    fontWeight: 700, letterSpacing: 0.5,
+                  }}>ADMIN</span>
+                )}
+              </button>
+
+              {menuOpen && (
+                <div style={{
+                  position: "absolute", top: 44, right: 0,
+                  background: "#222", border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 8, overflow: "hidden",
+                  minWidth: 160, zIndex: 200,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+                }}>
+                  <div style={{ padding: "12px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    <p style={{ margin: 0, fontSize: 13, color: "#fff", fontWeight: 600 }}>{usuario.username}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: "#666" }}>{usuario.email}</p>
+                  </div>
+                  {!esAdmin && (
+                    <button onClick={() => { onMisReservas(); setMenuOpen(false); }} style={menuItemStyle}>
+                      Mis Reservas
+                    </button>
+                  )}
+                  {esAdmin && (
+                    <>
+                      <button onClick={() => { onEstadisticas(); setMenuOpen(false); }} style={menuItemStyle}>
+                        Estadísticas
+                      </button>
+                      <button onClick={() => { onLog(); setMenuOpen(false); }} style={menuItemStyle}>
+                        registros
+                      </button>
+                    </>
+                  )}
+                  <button onClick={() => { logout(); setMenuOpen(false); }} style={{ ...menuItemStyle, color: "#e50914" }}>
+                    ⏏ Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const NavBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
+  <button
+    onClick={onClick}
+    style={{
+      background: "none", border: "none", cursor: "pointer",
+      color: "#e5e5e5", fontSize: 14, fontWeight: 500,
+      fontFamily: "inherit", padding: 0,
+      transition: "color 0.2s",
+    }}
+    onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+    onMouseLeave={e => (e.currentTarget.style.color = "#e5e5e5")}
+  >{children}</button>
+);
+
+const menuItemStyle: React.CSSProperties = {
+  display: "block", width: "100%",
+  background: "none", border: "none",
+  textAlign: "left", padding: "10px 16px",
+  color: "#ccc", fontSize: 13, cursor: "pointer",
+  transition: "background 0.15s",
+  fontFamily: "inherit",
+};
+
+export default Navbar;
