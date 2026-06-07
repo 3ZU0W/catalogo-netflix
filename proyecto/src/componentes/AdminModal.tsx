@@ -19,12 +19,11 @@ const PELICULA_VACIA: Pelicula = {
 };
 
 const AdminModal = ({
-  pelicula, onGuardar, onClose, token,
+  pelicula, onGuardar, onClose,
 }: {
   pelicula: Pelicula | null;
   onGuardar: (p: Pelicula, archivo: File | null) => void;
   onClose: () => void;
-  token: string | null;
 }) => {
   const [verificado, setVerificado] = useState(false);
   const [claveInput, setClaveInput] = useState("");
@@ -268,7 +267,7 @@ const AdminModal = ({
           />
         </div>
 
-        {/* Apartado para Actores */}
+        {/* -Apartado para Actores */}
         <div style={{ marginBottom: 14 }}>
           <label style={labelStyle}>Actores * (Uno por línea en formato: Nombre Apellido (Personaje))</label>
           <textarea

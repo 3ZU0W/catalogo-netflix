@@ -86,7 +86,7 @@ const InnerApp = () => {
 
   const SeccionPeliculas = ({
     titulo, icono, lista, color,
-  }: { titulo: string; icono: string; lista: Pelicula[]; color: string }) => (
+  }: { titulo: string; icono?: string; lista: Pelicula[]; color: string }) => (
     <section style={{ marginBottom: 52 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <span style={{ fontSize: 22 }}>{icono}</span>
@@ -233,7 +233,6 @@ const InnerApp = () => {
           pelicula={peliculaEditar === "nueva" ? null : peliculaEditar}
           onGuardar={handleGuardarPelicula}
           onClose={() => setPeliculaEditar(null)}
-          token={token}
         />
       )}
 

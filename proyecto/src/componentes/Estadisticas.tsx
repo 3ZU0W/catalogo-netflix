@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import type { Pelicula } from "../types/pelicula";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/api";
