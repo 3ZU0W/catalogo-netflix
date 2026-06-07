@@ -15,12 +15,22 @@ import { Comentario } from './comentarios/comentario.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'better-sqlite3',
-      database: 'netflick.db',
-      entities: [Usuario, Pelicula, Reserva, LogAcceso, Comentario],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(
+      process.env.DATABASE_URL
+        ? {
+            type: 'postgres',
+            url: process.env.DATABASE_URL,
+            entities: [Usuario, Pelicula, Reserva, LogAcceso, Comentario],
+            synchronize: true,
+            ssl: { rejectUnauthorized: false },
+          }
+        : {
+            type: 'better-sqlite3',
+            database: 'netflick.db',
+            entities: [Usuario, Pelicula, Reserva, LogAcceso, Comentario],
+            synchronize: true,
+          },
+    ),
     AuthModule,
     UsuariosModule,
     PeliculasModule,
