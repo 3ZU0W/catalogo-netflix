@@ -16,11 +16,10 @@ import { Comentario } from './comentarios/comentario.entity';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
+      type: 'better-sqlite3',
+      database: 'netflick.db',
       entities: [Usuario, Pelicula, Reserva, LogAcceso, Comentario],
       synchronize: true,
-      ssl: { rejectUnauthorized: false },
     }),
     AuthModule,
     UsuariosModule,
