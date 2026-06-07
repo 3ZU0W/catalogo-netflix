@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import type { Pelicula } from "../types/pelicula";
 import Badge from "./Badge";
-import StarRating from "./StarRating";
 
-const HeroCarousel = ({ peliculas, onSelect, onReservar }: { 
-  peliculas: Pelicula[]; 
+const HeroCarousel = ({ peliculas, onSelect, onReservar }: {
+  peliculas: Pelicula[];
   onSelect: (p: Pelicula) => void;
   onReservar: (p: Pelicula) => void;
 }) => {
   const [idx, setIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const featured = peliculas.slice(0, 5);
   const current = featured[idx];
 
@@ -17,12 +17,19 @@ const HeroCarousel = ({ peliculas, onSelect, onReservar }: {
     return () => clearInterval(t);
   }, [featured.length]);
 
+  useEffect(() => {
+    const handle = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
+  }, []);
+
   if (!current) return null;
 
   return (
     <div style={{
-      position: "relative", height: 500, overflow: "hidden",
-      background: "#000",
+      position: "relative",
+      height: isMobile ? 320 : 500,
+      overflow: "hidden", background: "#000",
     }}>
       {featured.map((p, i) => (
         <div key={p.id} style={{
@@ -37,67 +44,53 @@ const HeroCarousel = ({ peliculas, onSelect, onReservar }: {
       <div style={{
         position: "absolute", inset: 0,
         display: "flex", alignItems: "center",
-        padding: "0 64px",
+        padding: isMobile ? "0 20px" : "0 64px",
       }}>
-        <div style={{ maxWidth: 520 }}>
-          <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-            {current.generos.map(g => <Badge key={g.id} label={g.nombre} />)}
+        <div style={{ maxWidth: isMobile ? "100%" : 520 }}>
+          <div style={{ display: "flex", gap: 6, marginBottom: 8, flexWrap: "wrap" }}>
+            {current.generos.slice(0, 2).map(g => <Badge key={g.id} label={g.nombre} />)}
           </div>
           <h1 style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 64, letterSpacing: 4, margin: "0 0 8px",
-            lineHeight: 1, color: "#fff",
+            fontSize: isMobile ? 36 : 64,
+            letterSpacing: isMobile ? 2 : 4,
+            margin: "0 0 6px", lineHeight: 1, color: "#fff",
             textShadow: "0 2px 20px rgba(0,0,0,0.8)",
           }}>{current.titulo}</h1>
-          <p style={{ color: "#ccc", fontSize: 14, marginBottom: 8 }}>
+          <p style={{ color: "#ccc", fontSize: isMobile ? 12 : 14, marginBottom: 6 }}>
             {current.director} • {current.anio} • {current.duracion_min} min
           </p>
-          <p style={{ color: "#aaa", fontSize: 13, marginBottom: 16, lineHeight: 1.6 }}>
-            {current.sinopsis}
-          </p>
-          {current.promedio_valoraciones && (
-            <div style={{ marginBottom: 20 }}>
-              <StarRating value={current.promedio_valoraciones} size={20} />
-              <span style={{ color: "#aaa", fontSize: 13, marginLeft: 8 }}>
-                ({current.valoraciones.length} valoraciones)
-              </span>
-            </div>
+          {!isMobile && (
+            <p style={{ color: "#aaa", fontSize: 13, marginBottom: 16, lineHeight: 1.6 }}>
+              {current.sinopsis}
+            </p>
           )}
-          <div style={{ display: "flex", gap: 12 }}>
+          <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
             <button onClick={() => onSelect(current)} style={{
               background: "#e50914", border: "none", borderRadius: 4,
-              padding: "12px 32px", color: "#fff",
+              padding: isMobile ? "8px 18px" : "12px 32px", color: "#fff",
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 18, letterSpacing: 2, cursor: "pointer",
-              transition: "background 0.2s",
-            }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#c40812")}
-              onMouseLeave={e => (e.currentTarget.style.background = "#e50914")}
-            >▶ Ver más</button>
-
+              fontSize: isMobile ? 14 : 18, letterSpacing: 2, cursor: "pointer",
+            }}>Ver más</button>
             <button onClick={() => onReservar(current)} style={{
               background: "transparent",
               border: "2px solid #fff", borderRadius: 4,
-              padding: "12px 32px", color: "#fff",
+              padding: isMobile ? "8px 18px" : "12px 32px", color: "#fff",
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 18, letterSpacing: 2, cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#000"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#fff"; }}
-            > ENTRADAS — Bs. {current.precioEntrada}</button>
+              fontSize: isMobile ? 14 : 18, letterSpacing: 2, cursor: "pointer",
+            }}>Bs. {current.precioEntrada}</button>
           </div>
         </div>
       </div>
 
       {/* Dots */}
       <div style={{
-        position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
-        display: "flex", gap: 8,
+        position: "absolute", bottom: 16, left: "50%", transform: "translateX(-50%)",
+        display: "flex", gap: 6,
       }}>
         {featured.map((_, i) => (
           <button key={i} onClick={() => setIdx(i)} style={{
-            width: i === idx ? 28 : 8, height: 8,
+            width: i === idx ? 24 : 7, height: 7,
             borderRadius: 4, border: "none", cursor: "pointer",
             background: i === idx ? "#e50914" : "rgba(255,255,255,0.3)",
             transition: "all 0.3s",

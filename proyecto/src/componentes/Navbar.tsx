@@ -21,6 +21,7 @@ const Navbar = ({
   const esAdmin = usuario?.rol === "admin";
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav style={{
@@ -28,7 +29,7 @@ const Navbar = ({
       background: "linear-gradient(180deg, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.88) 100%)",
       backdropFilter: "blur(14px)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
-      padding: "0 32px",
+      padding: "0 16px",
     }}>
       <div style={{
         maxWidth: 1280, margin: "0 auto",
@@ -40,32 +41,27 @@ const Navbar = ({
           background: "none", border: "none", cursor: "pointer",
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: 28, color: "#e50914", letterSpacing: 3,
-          padding: 0, marginRight: 32,
+          padding: 0, flexShrink: 0,
         }}>NETFLICK</button>
 
-        {/* Links */}
-        <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center" }}>
+        {/* Desktop Links */}
+        <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center", marginLeft: 24 }}
+          className="desktop-nav">
           <NavBtn onClick={onVerCatalogo}>Inicio</NavBtn>
           <NavBtn onClick={onVerCatalogo}>Cartelera</NavBtn>
-
           {usuario && !esAdmin && (
             <NavBtn onClick={onMisReservas}>Reservas</NavBtn>
           )}
-
           {esAdmin && (
             <>
-              <button
-                onClick={() => setModoAdmin(!modoAdmin)}
-                style={{
-                  background: modoAdmin ? "#e50914" : "none",
-                  border: modoAdmin ? "none" : "1px solid rgba(229,9,20,0.4)",
-                  borderRadius: 4, cursor: "pointer",
-                  color: modoAdmin ? "#fff" : "#e50914",
-                  fontSize: 13, fontWeight: 600, fontFamily: "inherit",
-                  padding: "2px 12px", transition: "all 0.2s",
-                }}
-              >{modoAdmin ? "✓ Admin ON" : "Admin"}</button>
-
+              <button onClick={() => setModoAdmin(!modoAdmin)} style={{
+                background: modoAdmin ? "#e50914" : "none",
+                border: modoAdmin ? "none" : "1px solid rgba(229,9,20,0.4)",
+                borderRadius: 4, cursor: "pointer",
+                color: modoAdmin ? "#fff" : "#e50914",
+                fontSize: 13, fontWeight: 600, fontFamily: "inherit",
+                padding: "2px 12px", transition: "all 0.2s",
+              }}>{modoAdmin ? "✓ Admin ON" : "Admin"}</button>
               {modoAdmin && (
                 <button onClick={onAgregarPelicula} style={{
                   background: "#e50914", border: "none", borderRadius: 4,
@@ -74,26 +70,26 @@ const Navbar = ({
                   padding: "3px 14px",
                 }}>+ Película</button>
               )}
-
               <NavBtn onClick={onEstadisticas}>Estadísticas</NavBtn>
               <NavBtn onClick={onLog}>Registros</NavBtn>
             </>
           )}
         </div>
 
-        {/* Derecha: búsqueda + usuario */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Derecha */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {/* Búsqueda */}
           {searchOpen ? (
             <input
               autoFocus
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
-              placeholder="Buscar película..."
+              placeholder="Buscar..."
               style={{
                 background: "rgba(255,255,255,0.08)",
                 border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 4, padding: "6px 14px",
-                color: "#fff", fontSize: 13, outline: "none", width: 200,
+                borderRadius: 4, padding: "6px 10px",
+                color: "#fff", fontSize: 13, outline: "none", width: 140,
               }}
               onBlur={() => { if (!busqueda) setSearchOpen(false); }}
             />
@@ -101,33 +97,26 @@ const Navbar = ({
             <button onClick={() => setSearchOpen(true)} style={{
               background: "none", border: "none", cursor: "pointer",
               color: "#e5e5e5", fontSize: 14,
-            }}>BUSCAR 🔍</button>
+            }}>🔍</button>
           )}
 
-          {usuario ? (
+          {/* Usuario en desktop */}
+          {usuario && (
             <div style={{ position: "relative" }}>
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 8,
-                  background: "none", border: "none", cursor: "pointer",
-                }}
-              >
+              <button onClick={() => setMenuOpen(!menuOpen)} style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "none", border: "none", cursor: "pointer",
+              }}>
                 <div style={{
                   width: 34, height: 34, borderRadius: "50%",
                   background: usuario.rol === "admin" ? "#e50914" : "#333",
                   border: "2px solid rgba(255,255,255,0.15)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontWeight: 700, fontSize: 13, color: "#fff",
+                  fontWeight: 700, fontSize: 13, color: "#fff", flexShrink: 0,
                 }}>{usuario.username[0].toUpperCase()}</div>
-                <span style={{ color: "#ccc", fontSize: 13 }}>{usuario.username}</span>
-                {usuario.rol === "admin" && (
-                  <span style={{
-                    background: "#e50914", color: "#fff",
-                    fontSize: 9, padding: "1px 5px", borderRadius: 3,
-                    fontWeight: 700, letterSpacing: 0.5,
-                  }}>ADMIN</span>
-                )}
+                <span style={{ color: "#ccc", fontSize: 13, display: window.innerWidth > 480 ? "inline" : "none" }}>
+                  {usuario.username}
+                </span>
               </button>
 
               {menuOpen && (
@@ -135,12 +124,13 @@ const Navbar = ({
                   position: "absolute", top: 44, right: 0,
                   background: "#222", border: "1px solid rgba(255,255,255,0.1)",
                   borderRadius: 8, overflow: "hidden",
-                  minWidth: 160, zIndex: 200,
+                  minWidth: 180, zIndex: 200,
                   boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
                 }}>
                   <div style={{ padding: "12px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                     <p style={{ margin: 0, fontSize: 13, color: "#fff", fontWeight: 600 }}>{usuario.username}</p>
                     <p style={{ margin: 0, fontSize: 11, color: "#666" }}>{usuario.email}</p>
+                    {esAdmin && <span style={{ background: "#e50914", color: "#fff", fontSize: 9, padding: "1px 5px", borderRadius: 3, fontWeight: 700 }}>ADMIN</span>}
                   </div>
                   {!esAdmin && (
                     <button onClick={() => { onMisReservas(); setMenuOpen(false); }} style={menuItemStyle}>
@@ -149,11 +139,19 @@ const Navbar = ({
                   )}
                   {esAdmin && (
                     <>
+                      <button onClick={() => { setModoAdmin(!modoAdmin); setMenuOpen(false); }} style={menuItemStyle}>
+                        {modoAdmin ? "✓ Admin ON" : "Modo Admin"}
+                      </button>
+                      {modoAdmin && (
+                        <button onClick={() => { onAgregarPelicula(); setMenuOpen(false); }} style={menuItemStyle}>
+                          + Agregar Película
+                        </button>
+                      )}
                       <button onClick={() => { onEstadisticas(); setMenuOpen(false); }} style={menuItemStyle}>
                         Estadísticas
                       </button>
                       <button onClick={() => { onLog(); setMenuOpen(false); }} style={menuItemStyle}>
-                        registros
+                        Registros
                       </button>
                     </>
                   )}
@@ -163,7 +161,7 @@ const Navbar = ({
                 </div>
               )}
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </nav>
@@ -171,14 +169,12 @@ const Navbar = ({
 };
 
 const NavBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
-  <button
-    onClick={onClick}
-    style={{
-      background: "none", border: "none", cursor: "pointer",
-      color: "#e5e5e5", fontSize: 14, fontWeight: 500,
-      fontFamily: "inherit", padding: 0,
-      transition: "color 0.2s",
-    }}
+  <button onClick={onClick} style={{
+    background: "none", border: "none", cursor: "pointer",
+    color: "#e5e5e5", fontSize: 14, fontWeight: 500,
+    fontFamily: "inherit", padding: 0, transition: "color 0.2s",
+    whiteSpace: "nowrap",
+  }}
     onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
     onMouseLeave={e => (e.currentTarget.style.color = "#e5e5e5")}
   >{children}</button>
@@ -189,7 +185,6 @@ const menuItemStyle: React.CSSProperties = {
   background: "none", border: "none",
   textAlign: "left", padding: "10px 16px",
   color: "#ccc", fontSize: 13, cursor: "pointer",
-  transition: "background 0.15s",
   fontFamily: "inherit",
 };
 
