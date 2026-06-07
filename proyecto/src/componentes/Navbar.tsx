@@ -21,7 +21,6 @@ const Navbar = ({
   const esAdmin = usuario?.rol === "admin";
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav style={{
