@@ -80,8 +80,8 @@ const ReservaModal = ({
               ¡RESERVA CONFIRMADA!
             </h3>
             <p style={{ color: "#ccc", fontSize: 14, margin: "0 0 6px" }}>{pelicula.titulo}</p>
-            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}>🕐 {horario} — {pelicula.sala}</p>
-            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 20px" }}>🎫 {asientos} entrada{asientos > 1 ? "s" : ""} — Bs. {total}</p>
+            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}> {horario} — {pelicula.sala}</p>
+            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 20px" }}> {asientos} entrada{asientos > 1 ? "s" : ""} — Bs. {total}</p>
             <button onClick={onClose} style={{
               background: "#e50914", border: "none", borderRadius: 6,
               padding: "10px 28px", color: "#fff",
