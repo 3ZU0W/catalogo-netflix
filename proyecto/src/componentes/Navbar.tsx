@@ -85,6 +85,15 @@ const Navbar = ({
 
         {/* Derecha */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {/* Botón hamburguesa — solo móvil */}
+          {isMobile && usuario && (
+            <button onClick={() => setMenuOpen(!menuOpen)} style={{
+              background: "none", border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 6, cursor: "pointer",
+              color: "#fff", fontSize: 18,
+              padding: "4px 10px",
+            }}>☰</button>
+          )}
           {/* Búsqueda */}
           {searchOpen ? (
             <input
