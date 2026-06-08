@@ -87,7 +87,6 @@ const ReservasAdmin = ({ onClose }: { onClose: () => void }) => {
           <p style={{ color: "#666", textAlign: "center", padding: "40px 0" }}>Cargando…</p>
         ) : visibles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px 0" }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🎟️</div>
             <p style={{ color: "#555", fontSize: 14 }}>No hay reservas para mostrar.</p>
           </div>
         ) : (

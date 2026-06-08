@@ -117,7 +117,6 @@ const ReservaModal = ({ pelicula, onClose }: { pelicula: Pelicula; onClose: () =
 
         {bloqueado ? (
           <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🔞</div>
             <h3 style={{ color: "#e50914", fontFamily: "'Bebas Neue',sans-serif", fontSize: 26, letterSpacing: 3, margin: "0 0 12px" }}>
               CONTENIDO RESTRINGIDO
             </h3>
@@ -133,15 +132,14 @@ const ReservaModal = ({ pelicula, onClose }: { pelicula: Pelicula; onClose: () =
 
         ) : confirmado ? (
           <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <div style={{ fontSize: 52, marginBottom: 16 }}>🎟️</div>
             <h3 style={{ color: "#4caf50", fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, letterSpacing: 3, margin: "0 0 12px" }}>
               ¡RESERVA CONFIRMADA!
             </h3>
             <p style={{ color: "#ccc", fontSize: 14, margin: "0 0 6px" }}>{pelicula.titulo}</p>
-            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}>📅 {formatoDia(dia)}</p>
-            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}>🕐 {horario} — {pelicula.sala}</p>
+            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}>DIA: {formatoDia(dia)}</p>
+            <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 4px" }}>HORA: {horario} — {pelicula.sala}</p>
             <p style={{ color: "#aaa", fontSize: 13, margin: "0 0 20px" }}>
-              🎫 {asientos} entrada{asientos > 1 ? "s" : ""} — Bs. {total}
+              🎟️ {asientos} entrada{asientos > 1 ? "s" : ""} — Bs. {total}
             </p>
             <button onClick={onClose} style={{ background: "#e50914", border: "none", borderRadius: 6,
               padding: "10px 28px", color: "#fff", fontFamily: "'Bebas Neue',sans-serif",
