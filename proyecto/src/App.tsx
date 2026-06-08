@@ -42,12 +42,22 @@ const InnerApp = () => {
   }, [usuario]);
 
   useEffect(() => {
-  const script = document.createElement("script");
-  script.src = "https://www.chatbase.co/embed.min.js";
-  script.id = "GLBbPlOYsna7493u5DGaY";
-  (script as any).domain = "www.chatbase.co";
-  document.body.appendChild(script);
-  }, []); 
+    const scriptAnterior = document.getElementById("GLBbPlOYsna7493u5DGaY");
+    if (scriptAnterior) scriptAnterior.remove();
+
+    const widgetAnterior = document.getElementById("chatbase-bubble-window");
+    if (widgetAnterior) widgetAnterior.remove();
+    const btnAnterior = document.getElementById("chatbase-bubble-button");
+    if (btnAnterior) btnAnterior.remove();
+
+    if (!usuario) return;
+
+    const script = document.createElement("script");
+    script.src = "https://www.chatbase.co/embed.min.js";
+    script.id = "GLBbPlOYsna7493u5DGaY";
+    (script as any).domain = "www.chatbase.co";
+    document.body.appendChild(script);
+  }, [usuario]); 
 
   const esAdmin = usuario?.rol === "admin";
   const peliculasActivas = peliculas.filter(p => p.activo);
