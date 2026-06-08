@@ -41,6 +41,14 @@ const InnerApp = () => {
     else setShowLogin(false);
   }, [usuario]);
 
+  useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://www.chatbase.co/embed.min.js";
+  script.id = "GLBbPlOYsna7493u5DGaY";
+  (script as any).domain = "www.chatbase.co";
+  document.body.appendChild(script);
+  }, []); 
+
   const esAdmin = usuario?.rol === "admin";
   const peliculasActivas = peliculas.filter(p => p.activo);
 
