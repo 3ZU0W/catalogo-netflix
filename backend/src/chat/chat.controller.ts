@@ -4,22 +4,23 @@ import { Controller, Post, Body } from '@nestjs/common';
 export class ChatController {
   @Post()
   async chat(@Body() body: { messages: any[]; systemPrompt: string }) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: body.systemPrompt }] },
-          contents: body.messages.map(m => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }],
-          })),
-        }),
-      }
-    );
+    const apiKey = process.env.GROQ_API_KEY;
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'llama3-8b-8192',
+        messages: [
+          { role: 'system', content: body.systemPrompt },
+          ...body.messages,
+        ],
+        max_tokens: 1000,
+      }),
+    });
     const data = await res.json();
-    return { text: data.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Error' };
+    return { text: data.choices?.[0]?.message?.content ?? 'Error' };
   }
 }
