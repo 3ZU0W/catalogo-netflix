@@ -5,7 +5,7 @@ const Navbar = ({
   busqueda, setBusqueda,
   modoAdmin, setModoAdmin,
   onVerCatalogo, onAgregarPelicula,
-  onMisReservas, onEstadisticas, onLog,
+  onMisReservas, onEstadisticas, onLog, onGestionReservas,
 }: {
   busqueda: string;
   setBusqueda: (v: string) => void;
@@ -80,6 +80,7 @@ const Navbar = ({
                 )}
                 <NavBtn onClick={onEstadisticas}>Estadísticas</NavBtn>
                 <NavBtn onClick={onLog}>Registros</NavBtn>
+                <NavBtn onClick={onGestionReservas}>Gestión Reservas</NavBtn>
               </>
             )}
           </div>
@@ -121,6 +122,9 @@ const Navbar = ({
                       )}
                       <button onClick={() => { onEstadisticas(); setHamburguesaOpen(false); }} style={menuItemStyle}>Estadísticas</button>
                       <button onClick={() => { onLog(); setHamburguesaOpen(false); }} style={menuItemStyle}>Registros</button>
+                      <button onClick={() => { onGestionReservas(); setHamburguesaOpen(false); }} style={menuItemStyle}>
+                        Gestión Reservas
+                      </button>
                     </>
                   )}
                 </div>
