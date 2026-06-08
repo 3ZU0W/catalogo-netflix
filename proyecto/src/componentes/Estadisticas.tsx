@@ -31,7 +31,7 @@ const Estadisticas = ({
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
     doc.setFont("helvetica", "bold");
-    doc.text("NETFLICK — REPORTE DE RESERVAS", 14, 18);
+    doc.text("REPORTE DE RESERVAS", 14, 18);
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     doc.text(`Generado: ${new Date().toLocaleString("es-BO")}`, 14, 36);
@@ -60,8 +60,11 @@ const Estadisticas = ({
       headStyles: { fillColor: [229, 9, 20] },
       styles: { fontSize: 9 },
     });
-    doc.save("netflick-reporte.pdf");
-  };
+    const pdfBlob = doc.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    window.open(pdfUrl, "_blank");
+      };
 
   return (
     <div style={{
