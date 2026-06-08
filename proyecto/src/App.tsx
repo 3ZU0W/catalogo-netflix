@@ -15,7 +15,6 @@ import Filtros from "./componentes/Filtros";
 import ReservaModal from "./componentes/ReservaModal";
 import ComentariosCine from "./componentes/ComentariosCine";
 import { api } from "./api/api";
-import ChatBot from "./componentes/ChatBot";
 
 const InnerApp = () => {
   const { usuario, token } = useAuth();
@@ -245,7 +244,6 @@ const InnerApp = () => {
       {peliculaReserva && (
         <ReservaModal pelicula={peliculaReserva} onClose={() => setPeliculaReserva(null)} />
       )}
-      <ChatBot peliculas={peliculas} />
     </div>
   );
 };
