@@ -14,6 +14,7 @@ import LogPanel from "./componentes/LogPanel";
 import Filtros from "./componentes/Filtros";
 import ReservaModal from "./componentes/ReservaModal";
 import ComentariosCine from "./componentes/ComentariosCine";
+import ReservasAdmin from "./componentes/ReservasAdmin";
 import { api } from "./api/api";
 
 const InnerApp = () => {
@@ -29,6 +30,7 @@ const InnerApp = () => {
   const [peliculaEditar, setPeliculaEditar] = useState<Pelicula | null | "nueva">(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showReservas, setShowReservas] = useState(false);
+  const [showGestionReservas, setShowGestionReservas] = useState(false);
   const [showEstadisticas, setShowEstadisticas] = useState(false);
   const [showLog, setShowLog] = useState(false);
 
@@ -153,6 +155,7 @@ const InnerApp = () => {
         onMisReservas={() => setShowReservas(true)}
         onEstadisticas={() => setShowEstadisticas(true)}
         onLog={() => setShowLog(true)}
+        onGestionReservas={() => setShowGestionReservas(true)} 
       />
 
       {!usuario ? (
@@ -251,6 +254,7 @@ const InnerApp = () => {
           pelicula={peliculaEditar === "nueva" ? null : peliculaEditar}
           onGuardar={handleGuardarPelicula}
           onClose={() => setPeliculaEditar(null)}
+          token={token}
         />
       )}
 
@@ -261,6 +265,9 @@ const InnerApp = () => {
       {showLog && esAdmin && <LogPanel onClose={() => setShowLog(false)} />}
       {peliculaReserva && (
         <ReservaModal pelicula={peliculaReserva} onClose={() => setPeliculaReserva(null)} />
+      )}
+      {showGestionReservas && esAdmin && (
+        <ReservasAdmin onClose={() => setShowGestionReservas(false)} />
       )}
     </div>
   );
