@@ -19,9 +19,21 @@ export class ReservasController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('ocupacion/:peliculaId')
+  ocupacion(@Param('peliculaId') peliculaId: string) {
+    return this.service.ocupacionPorPelicula(Number(peliculaId));
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   todas() {
     return this.service.listarTodas();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id/eliminar')
+  eliminar(@Param('id') id: string) {
+    return this.service.eliminar(Number(id));
   }
 
   @UseGuards(JwtAuthGuard)

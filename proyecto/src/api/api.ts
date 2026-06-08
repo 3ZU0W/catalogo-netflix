@@ -118,6 +118,13 @@ export const api = {
     });
   },
 
+  getOcupacion: async (peliculaId: number, token: string) => {
+    const res = await fetch(`${BASE}/reservas/ocupacion/${peliculaId}`, {
+      headers: headers(token),
+    });
+    return res.json();
+  },
+
   getLogs: async (token: string) => {
     const res = await fetch(`${BASE}/auth/logs`, {
       headers: headers(token),

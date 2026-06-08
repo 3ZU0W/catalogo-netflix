@@ -16,6 +16,7 @@ const Navbar = ({
   onMisReservas: () => void;
   onEstadisticas: () => void;
   onLog: () => void;
+  onGestionReservas: () => void;
 }) => {
   const { usuario, logout } = useAuth();
   const esAdmin = usuario?.rol === "admin";

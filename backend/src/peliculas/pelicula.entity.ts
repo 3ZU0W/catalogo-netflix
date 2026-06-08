@@ -32,6 +32,12 @@ export class Pelicula {
   @Column('simple-array')
   horarios: string[];
 
+  @Column('simple-json', { default: '[]' })
+  funciones: { dia: string; horarios: string[] }[];
+
+  @Column({ default: 15 })
+  capacidad: number;
+
   @Column({ type: 'float', default: 35 })
   precioEntrada: number;
 

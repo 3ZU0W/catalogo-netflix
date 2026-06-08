@@ -20,6 +20,9 @@ export class Reserva {
   @Column()
   usuarioNombre: string;
 
+  @Column({ default: '' })
+  dia: string;
+
   @Column()
   horario: string;
 

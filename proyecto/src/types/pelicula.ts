@@ -34,7 +34,9 @@ export interface Pelicula {
 
   estado: "en_cartelera" | "proximo_estreno";
   fechaEstreno: string;       
-  horarios: string[];         
+  horarios: string[];     
+  funciones: { dia: string; horarios: string[] }[]; 
+  capacidad: number;        
   precioEntrada: number;      
   sala: string;               
   soloMayores18: boolean;
