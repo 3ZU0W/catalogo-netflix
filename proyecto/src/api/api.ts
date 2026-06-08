@@ -1,4 +1,4 @@
-const BASE = 'https://catalogo-netflix-production-51fa.up.railway.app';
+const BASE = 'https://catalogo-netflix-production-91aa.up.railway.app';
 
 const headers = (token?: string) => ({
   'Content-Type': 'application/json',
