@@ -16,7 +16,7 @@ cloudinary.config({
 async function subirACloudinary(buffer: Buffer, filename: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { upload_preset: 'minuit-cinema', folder: 'minuit-cinema' },
+  { upload_preset: 'minuit-cinema', folder: 'minuit-cinema' },
       (error, result) => {
         if (error || !result) return reject(error);
         resolve(result.secure_url);
