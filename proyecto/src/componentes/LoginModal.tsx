@@ -261,28 +261,34 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
         {/* REGISTRO */}
         {modo === "registro" && (
           <>
-            {[
-              { label: "Nombre de usuario", value: regUser, set: setRegUser, type: "text", placeholder: "ej: juanperez" },
-              { label: "Correo electrónico", value: regEmail, set: setRegEmail, type: "email", placeholder: "correo@ejemplo.com" },
-            ].map(f => (
-              <div style={{ marginBottom: 14 }}>
-              <label style={labelStyle}>Nombre de usuario</label>
-              <input
-                type="text"
-                value={regUser}
-                onChange={(e) => {
-                  const valor = e.target.value.replace(
-                    /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g,
-                    ""
-                  );
-                  setRegUser(valor);
-                }}
-                style={inputStyle}
-                placeholder="ej: Juan Perez"
-                maxLength={20}
-              />
-            </div>
-            ))}
+            <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Nombre de usuario</label>
+            <input
+              type="text"
+              value={regUser}
+              onChange={(e) => {
+                const valor = e.target.value.replace(
+                  /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g,
+                  ""
+                );
+                setRegUser(valor);
+              }}
+              style={inputStyle}
+              placeholder="ej: Juan Perez"
+              maxLength={20}
+            />
+          </div>
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Correo electrónico</label>
+            <input
+              type="email"
+              value={regEmail}
+              onChange={(e) => setRegEmail(e.target.value)}
+              style={inputStyle}
+              placeholder="correo@ejemplo.com"
+            />
+          </div>
 
             <div style={{ marginBottom: 6 }}>
               <label style={labelStyle}>Contraseña</label>
