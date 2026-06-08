@@ -87,9 +87,9 @@ const DetalleModal = ({
             alignItems: "center", flexWrap: "wrap",
           }}>
             <span style={{ color: "#aaa", fontSize: 13 }}> {pelicula.anio}</span>
-            <span style={{ color: "#aaa", fontSize: 13 }}>🎬 {pelicula.director}</span>
+            <span style={{ color: "#aaa", fontSize: 13 }}>DIRECTOR: {pelicula.director}</span>
             <span style={{ color: "#aaa", fontSize: 13 }}>⏱ {pelicula.duracion_min} min</span>
-            <span style={{ color: "#aaa", fontSize: 13 }}>🏛 {pelicula.sala}</span>
+            <span style={{ color: "#aaa", fontSize: 13 }}>SALA: {pelicula.sala}</span>
             <div style={{ marginLeft: "auto" }}>
               {puedeReservar ? (
                 pelicula.soloMayores18 && edad !== null && edad < 18 ? (

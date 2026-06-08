@@ -98,13 +98,6 @@ const MovieCard = ({
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span style={{ color: "#888", fontSize: 11 }}>{pelicula.anio}</span>
           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-            {pelicula.promedio_valoraciones ? (
-              <span style={{ color: "#e50914", fontSize: 11, fontWeight: 700 }}>
-                ★ {pelicula.promedio_valoraciones.toFixed(1)}
-              </span>
-            ) : (
-              <span style={{ color: "#555", fontSize: 11 }}>Sin rating</span>
-            )}
             <span style={{ color: "#555", fontSize: 10 }}>Bs.{pelicula.precioEntrada}</span>
           </div>
         </div>
