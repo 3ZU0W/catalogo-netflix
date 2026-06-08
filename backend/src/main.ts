@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { UsuariosService } from './usuarios/usuarios.service';
-import { seedPeliculas } from './peliculas/peliculas.seed';
 import { join } from 'path';
 
 async function bootstrap() {
@@ -35,7 +34,6 @@ async function bootstrap() {
 
   const { DataSource } = await import('typeorm');
   const dataSource = app.get(DataSource);
-  await seedPeliculas(dataSource);
 
   await app.listen(3000);
   console.log('http://localhost:3000');
