@@ -15,6 +15,8 @@ interface AuthContextType {
   cancelarReserva: (id: number) => Promise<void>;
   cargarLogs: () => Promise<void>;
   cargarReservas: () => Promise<void>;
+  eliminarReservaAdmin: (id: number) => Promise<void>;
+  cargarTodasReservas: () => Promise<Reserva[]>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -127,6 +129,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setReservas(prev => prev.map(r => r.id === id ? { ...r, estado: "cancelada" } : r));
   }, [token]);
 
+  const eliminarReservaAdmin = useCallback(async (id: number) => {
+    if (!token) return;
+    await api.eliminarReservaAdmin(id, token);
+  }, [token]);
+
+  const cargarTodasReservas = useCallback(async (): Promise<Reserva[]> => {
+    if (!token) return [];
+    const data = await api.getTodasReservas(token);
+    return data.map((r: any) => ({
+      ...r,
+      usuarioId: String(r.usuarioId),
+      peliculaPortada: r.peliculaPortada ?? null,
+      fecha: new Date(r.fecha).toLocaleDateString("es-BO"),
+    }));
+  }, [token]);
+
   const cargarLogs = useCallback(async () => {
     if (!token) return;
     const data = await api.getLogs(token);
@@ -153,6 +171,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       usuario, token, reservas, logs,
       login, logout, registrar,
       agregarReserva, cancelarReserva,
+      eliminarReservaAdmin, cargarTodasReservas,
       cargarLogs, cargarReservas,
     }}>
       {children}

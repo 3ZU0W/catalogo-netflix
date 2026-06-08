@@ -104,7 +104,20 @@ export const api = {
     });
   },
 
-  // Logs
+  getTodasReservas: async (token: string) => {
+    const res = await fetch(`${BASE}/reservas`, {
+      headers: headers(token),
+    });
+    return res.json();
+  },
+
+  eliminarReservaAdmin: async (id: number, token: string) => {
+    await fetch(`${BASE}/reservas/${id}/eliminar`, {
+      method: 'DELETE',
+      headers: headers(token),
+    });
+  },
+
   getLogs: async (token: string) => {
     const res = await fetch(`${BASE}/auth/logs`, {
       headers: headers(token),
@@ -122,13 +135,6 @@ export const api = {
     });
     return res.json();
   },
-
-  getTodasReservas: async (token: string) => {
-    const res = await fetch(`${BASE}/reservas`, {
-      headers: headers(token),
-    });
-    return res.json();
-  },
   
   limpiarLogs: async (token: string) => {
     await fetch(`${BASE}/auth/logs`, {
@@ -137,7 +143,6 @@ export const api = {
     });
   },
 
-  // Comentarios
   getComentarios: async () => {
     const res = await fetch(`${BASE}/comentarios`);
     return res.json();

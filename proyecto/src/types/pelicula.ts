@@ -47,6 +47,8 @@ export interface Reserva {
   peliculaTitulo: string;
   peliculaPortada: string | null;
   usuarioId: string;
+  usuarioNombre?: string; 
+  dia?: string; 
   horario: string;
   asientos: number;
   total: number;
