@@ -61,20 +61,64 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
       setError("Completa todos los campos");
       return;
     }
+
+    if (regUser.trim().length < 3) {
+      setError("El nombre de usuario debe tener al menos 3 letras");
+      return;
+    }
+
+    if (regUser.trim().length > 20) {
+      setError("El nombre de usuario no puede tener más de 20 caracteres");
+      return;
+    }
+
+    if (/\d/.test(regUser)) {
+      setError("El nombre de usuario no puede contener números");
+      return;
+    }
+
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(regUser)) {
+      setError("El nombre de usuario solo puede contener letras");
+      return;
+    }
+
+    if (/\s{2,}/.test(regUser)) {
+      setError("El nombre de usuario contiene espacios inválidos");
+      return;
+    }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)) {
-      setError("Email inválido");
+      setError("Correo electrónico inválido");
       return;
     }
-    if (fortaleza.nivel === "debil") {
-      setError("La contraseña es muy débil. Usa al menos 8 caracteres, una mayúscula y un número.");
+
+    if (regPass.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres");
       return;
     }
+
+    if (!/[A-Z]/.test(regPass)) {
+      setError("La contraseña debe contener al menos una letra mayúscula");
+      return;
+    }
+
+    if (!/[a-z]/.test(regPass)) {
+      setError("La contraseña debe contener al menos una letra minúscula");
+      return;
+    }
+
+    if (!/[0-9]/.test(regPass)) {
+      setError("La contraseña debe contener al menos un número");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(regPass)) {
+      setError("La contraseña debe contener al menos un carácter especial");
+      return;
+    }
+
     if (regPass !== regPassConf) {
       setError("Las contraseñas no coinciden");
-      return;
-    }
-    if (!captchaToken) {
-      setError("Por favor completa el CAPTCHA");
       return;
     }
     setLoading(true);
@@ -221,16 +265,23 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
               { label: "Nombre de usuario", value: regUser, set: setRegUser, type: "text", placeholder: "ej: juanperez" },
               { label: "Correo electrónico", value: regEmail, set: setRegEmail, type: "email", placeholder: "correo@ejemplo.com" },
             ].map(f => (
-              <div key={f.label} style={{ marginBottom: 14 }}>
-                <label style={labelStyle}>{f.label}</label>
-                <input
-                  type={f.type}
-                  value={f.value}
-                  onChange={e => f.set(e.target.value)}
-                  style={inputStyle}
-                  placeholder={f.placeholder}
-                />
-              </div>
+              <div style={{ marginBottom: 14 }}>
+              <label style={labelStyle}>Nombre de usuario</label>
+              <input
+                type="text"
+                value={regUser}
+                onChange={(e) => {
+                  const valor = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g,
+                    ""
+                  );
+                  setRegUser(valor);
+                }}
+                style={inputStyle}
+                placeholder="ej: Juan Perez"
+                maxLength={20}
+              />
+            </div>
             ))}
 
             <div style={{ marginBottom: 6 }}>
