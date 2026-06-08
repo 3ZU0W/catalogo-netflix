@@ -49,14 +49,14 @@ const Navbar = ({
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: 28, color: "#e50914", letterSpacing: 3,
           padding: 0, flexShrink: 0,
-        }}>NETFLICK</button>
+        }}>MINUIT CINEMA</button>
 
         {/* Desktop Links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center", marginLeft: 32 }}>
             <NavBtn onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Inicio</NavBtn>
             <NavBtn onClick={() => document.getElementById("cartelera")?.scrollIntoView({ behavior: "smooth" })}>Cartelera</NavBtn>
-            {usuario && !esAdmin && (
+            {usuario && (
               <NavBtn onClick={onMisReservas}>Reservas</NavBtn>
             )}
             {esAdmin && (
@@ -107,9 +107,7 @@ const Navbar = ({
                 }}>
                   <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setHamburguesaOpen(false); }} style={menuItemStyle}>Inicio</button>
                   <button onClick={() => { document.getElementById("cartelera")?.scrollIntoView({ behavior: "smooth" }); setHamburguesaOpen(false); }} style={menuItemStyle}>Cartelera</button>
-                  {!esAdmin && (
-                    <button onClick={() => { onMisReservas(); setHamburguesaOpen(false); }} style={menuItemStyle}>Mis Reservas</button>
-                  )}
+                  <button onClick={() => { onMisReservas(); setHamburguesaOpen(false); }} style={menuItemStyle}>Mis Reservas</button>
                   {esAdmin && (
                     <>
                       <button onClick={() => { setModoAdmin(!modoAdmin); setHamburguesaOpen(false); }} style={menuItemStyle}>

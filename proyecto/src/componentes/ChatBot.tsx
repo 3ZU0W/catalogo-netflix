@@ -7,7 +7,7 @@ const ChatBot = ({ peliculas }: { peliculas: any[] }) => {
   const { usuario } = useAuth();
   const [abierto, setAbierto] = useState(false);
   const [mensajes, setMensajes] = useState<Mensaje[]>([
-    { rol: "assistant", texto: "¡Hola! Soy el asistente de NETFLICK. Puedo ayudarte a encontrar películas, horarios, precios y más. ¿En qué te ayudo?" }
+    { rol: "assistant", texto: "¡Hola! Soy el asistente de MINUIT CINEMA. Puedo ayudarte a encontrar películas, horarios, precios y más. ¿En qué te ayudo?" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const ChatBot = ({ peliculas }: { peliculas: any[] }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            systemPrompt: `Eres el asistente virtual de NETFLICK, un cine boliviano. Responde en español de forma amable y concisa. 
+            systemPrompt: `Eres el asistente virtual de MINUIT, un cine boliviano. Responde en español de forma amable y concisa. 
             Estas son las películas disponibles actualmente:
             ${infoPeliculas}
             Ayuda a los usuarios con recomendaciones, horarios, precios y reservas. Si te preguntan sobre reservas, diles que pueden reservar desde la página principal.`,
@@ -96,7 +96,7 @@ const ChatBot = ({ peliculas }: { peliculas: any[] }) => {
               fontSize: 16,
             }}>🎬</div>
             <div>
-              <p style={{ margin: 0, color: "#fff", fontWeight: 700, fontSize: 14 }}>Asistente NETFLICK</p>
+              <p style={{ margin: 0, color: "#fff", fontWeight: 700, fontSize: 14 }}>Asistente MINUIT</p>
               <p style={{ margin: 0, color: "rgba(255,255,255,0.7)", fontSize: 11 }}>Powered by IA</p>
             </div>
           </div>

@@ -157,7 +157,7 @@ const InnerApp = () => {
               fontSize: 90, color: "#e50914",
               margin: "0 0 0px", letterSpacing: 8,
               textShadow: "0 0 60px rgba(229,9,20,0.4)", lineHeight: 1,
-            }}>NETFLICK</p>
+            }}>MINUIT CINEMA</p>
             <p style={{ color: "#888", fontSize: 15, margin: "0 0 12px", letterSpacing: 3, textTransform: "uppercase" }}>
               Tu cine, cuando quieras
             </p>

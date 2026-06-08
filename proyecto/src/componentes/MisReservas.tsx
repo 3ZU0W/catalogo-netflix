@@ -80,7 +80,7 @@ const MisReservas = ({ onClose }: { onClose: () => void }) => {
                   <p style={{ margin: "0 0 2px", fontSize: 12, color: "#888" }}>
                      {r.asientos} entrada{r.asientos > 1 ? "s" : ""}
                   </p>
-                  <p style={{ margin: 0, fontSize: 12, color: "#666" }}>📅 {r.fecha}</p>
+                  <p style={{ margin: 0, fontSize: 12, color: "#666" }}> {r.fecha}</p>
                 </div>
 
                 {/* Total y cancelar */}

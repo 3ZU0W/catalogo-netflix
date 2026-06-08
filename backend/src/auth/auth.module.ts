@@ -13,7 +13,7 @@ import { LogAcceso } from './log-acceso.entity';
     TypeOrmModule.forFeature([LogAcceso]),
     PassportModule,
     JwtModule.register({
-      secret: 'netflick_secret_2026',
+      secret: 'minuit_cinema_secret_2026',
       signOptions: { expiresIn: '8h' },
     }),
     UsuariosModule,

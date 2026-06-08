@@ -23,7 +23,7 @@ async function bootstrap() {
   try {
     await usuariosService.crear({
       username: 'admin',
-      email: 'admin@netflick.bo',
+      email: 'admin@minuit-cinema.bo',
       password: 'Admin@2026',
       fechaNacimiento: '1990-01-01',
       rol: 'admin',

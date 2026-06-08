@@ -143,7 +143,7 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: 34, letterSpacing: 4,
           color: "#e50914", margin: "0 0 4px",
-        }}>NETFLICK</h2>
+        }}>MINUIT CINEMA</h2>
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 0, marginBottom: 28, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
