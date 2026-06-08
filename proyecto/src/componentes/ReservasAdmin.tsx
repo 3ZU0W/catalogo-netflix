@@ -120,7 +120,7 @@ const ReservasAdmin = ({ onClose }: { onClose: () => void }) => {
                     )}
                   </p>
                   <p style={{ margin: "0 0 2px", fontSize: 12, color: "#999" }}>
-                    👤 {r.usuarioNombre ?? `Usuario ${r.usuarioId}`} · 📅 {formatoDia(r.dia)} · 🕐 {r.horario} — {r.sala}
+                     USUARIO: {r.usuarioNombre ?? `Usuario ${r.usuarioId}`} · FECHA: {formatoDia(r.dia)} · HORA: {r.horario} — {r.sala}
                   </p>
                   <p style={{ margin: 0, fontSize: 12, color: "#777" }}>
                     🎫 {r.asientos} entrada{r.asientos > 1 ? "s" : ""} · Bs. {r.total} · reservada el {r.fecha}
