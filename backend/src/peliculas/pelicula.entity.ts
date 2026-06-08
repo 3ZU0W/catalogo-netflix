@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('peliculas')
+@Entity()
 export class Pelicula {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,50 +9,50 @@ export class Pelicula {
   titulo: string;
 
   @Column()
-  director: string;
+  anio: number;
 
   @Column()
-  anio: number;
+  director: string;
 
   @Column()
   duracion_min: number;
 
-  @Column({ type: 'float' })
-  precioEntrada: number;
+  @Column({ nullable: true })
+  sinopsis: string;
 
-  @Column()
-  sala: string;
+  @Column({ type: 'text', nullable: true })
+  portada: string;
+
+  @Column({ default: 'en_cartelera' })
+  estado: string;
 
   @Column()
   fechaEstreno: string;
 
-  @Column({ nullable: true })
-  portada: string;
-
-  @Column({ type: 'text' })
-  sinopsis: string;
-
-  @Column({ type: 'simple-array' })
+  @Column('simple-array')
   horarios: string[];
 
-  @Column()
-  estado: string;
+  @Column({ type: 'float', default: 35 })
+  precioEntrada: number;
+
+  @Column({ default: 'Sala 1' })
+  sala: string;
 
   @Column({ default: false })
   soloMayores18: boolean;
 
-  @Column({ default: true })
-  activo: boolean;
+  @Column('simple-json', { default: '[]' })
+  generos: { id: number; nombre: string }[];
 
-  @Column({ type: 'json', nullable: true })
-  valoraciones: any[];
+  @Column('simple-json', { default: '[]' })
+  actores: { id: number; nombre: string; apellido: string; personaje?: string }[];
 
-  @Column({ type: 'float', nullable: true })
+  @Column('simple-json', { default: '[]' })
+  valoraciones: { id: number; puntuacion: number; comentario: string; fecha: string; usuario: string }[];
+
+  @Column({ type: 'real', nullable: true })
   promedio_valoraciones: number;
 
-  @Column({ type: 'json', nullable: true })
-  actores: any[];
-
-  @Column({ type: 'json', nullable: true })
-  generos: any[];
+  @Column({ default: true })
+  activo: boolean;
 }
