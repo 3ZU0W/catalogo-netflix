@@ -32,7 +32,7 @@ const LogPanel = ({ onClose }: { onClose: () => void }) => {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
           <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 28, letterSpacing: 3, color: "#e50914", margin: 0 }}>
-            LOG DE ACCESO
+            LOG DE ACCESO CON IP
           </h2>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
             <button
@@ -49,7 +49,7 @@ const LogPanel = ({ onClose }: { onClose: () => void }) => {
                 color: "#e50914", fontSize: 12, cursor: "pointer",
                 fontFamily: "inherit",
               }}
-            >🗑 LIMPIAR</button>
+            >LIMPIAR</button>
             <button onClick={onClose} style={{ background: "none", border: "none", color: "#666", fontSize: 22, cursor: "pointer" }}>✕</button>
           </div>
         </div>
@@ -83,7 +83,7 @@ const LogPanel = ({ onClose }: { onClose: () => void }) => {
                         border: `1px solid ${log.evento === "ingreso" ? "rgba(76,175,80,0.3)" : "rgba(229,9,20,0.3)"}`,
                         borderRadius: 4, padding: "2px 8px", fontSize: 11, fontWeight: 600,
                       }}>
-                        {log.evento === "ingreso" ? "▶ INGRESO" : "◀ SALIDA"}
+                        {log.evento === "ingreso" ? "INGRESO" : "SALIDA"}
                       </span>
                     </td>
                     <td style={{ padding: "8px 12px", color: "#888" }}>{log.fecha}</td>
