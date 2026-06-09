@@ -103,8 +103,7 @@ const DetalleModal = ({
                     fontFamily: "'Bebas Neue',sans-serif",
                     fontSize: 16, letterSpacing: 2, cursor: "pointer",
                   }}>
-                   {esProximo ? "RESERVAR ANTICIPADO" : "COMPRAR ENTRADA"} — Bs. {pelicula.precioEntrada}
-                  </button>
+                   {esProximo ? "RESERVAR ANTICIPADO" : "COMPRAR ENTRADA"}</button>
                 )
               ) : (
                 <button onClick={onLogin} style={{
