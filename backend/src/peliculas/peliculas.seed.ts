@@ -156,8 +156,7 @@ export async function seedPeliculas(dataSource: DataSource) {
       activo: true,
     },
   ];
-  // Genera funciones para 4 días consecutivos a partir de la fecha de estreno,
-  // reutilizando los horarios definidos en cada película.
+
   const generarFunciones = (fechaBase: string, horarios: string[]) => {
     const funciones: { dia: string; horarios: string[] }[] = [];
     const base = new Date(fechaBase + 'T00:00:00');
@@ -165,7 +164,6 @@ export async function seedPeliculas(dataSource: DataSource) {
       const d = new Date(base);
       d.setDate(base.getDate() + i);
       const dia = d.toISOString().split('T')[0];
-      // El último día ofrece menos horarios, para variar la cartelera
       const lista = i === 3 ? horarios.slice(0, Math.max(1, horarios.length - 1)) : horarios;
       funciones.push({ dia, horarios: lista });
     }
