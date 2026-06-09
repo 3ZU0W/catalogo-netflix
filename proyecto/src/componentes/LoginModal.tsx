@@ -61,62 +61,50 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
       setError("Completa todos los campos");
       return;
     }
-
     if (regUser.trim().length < 3) {
       setError("El nombre de usuario debe tener al menos 3 letras");
       return;
     }
-
     if (regUser.trim().length > 20) {
       setError("El nombre de usuario no puede tener más de 20 caracteres");
       return;
     }
-
     if (/\d/.test(regUser)) {
       setError("El nombre de usuario no puede contener números");
       return;
     }
-
     if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(regUser)) {
       setError("El nombre de usuario solo puede contener letras");
       return;
     }
-
     if (/\s{2,}/.test(regUser)) {
       setError("El nombre de usuario contiene espacios inválidos");
       return;
     }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(regEmail)) {
       setError("Correo electrónico inválido");
       return;
     }
-
     if (regPass.length < 8) {
       setError("La contraseña debe tener al menos 8 caracteres");
       return;
     }
-
     if (!/[A-Z]/.test(regPass)) {
       setError("La contraseña debe contener al menos una letra mayúscula");
       return;
     }
-
     if (!/[a-z]/.test(regPass)) {
       setError("La contraseña debe contener al menos una letra minúscula");
       return;
     }
-
     if (!/[0-9]/.test(regPass)) {
       setError("La contraseña debe contener al menos un número");
       return;
     }
-
     if (!/[!@#$%^&*(),.?\":{}|<>]/.test(regPass)) {
       setError("La contraseña debe contener al menos un carácter especial");
       return;
     }
-
     if (regPass !== regPassConf) {
       setError("Las contraseñas no coinciden");
       return;
@@ -262,33 +250,70 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
         {modo === "registro" && (
           <>
             <div style={{ marginBottom: 14 }}>
-            <label style={labelStyle}>Nombre de usuario</label>
-            <input
-              type="text"
-              value={regUser}
-              onChange={(e) => {
-                const valor = e.target.value.replace(
-                  /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g,
-                  ""
-                );
-                setRegUser(valor);
-              }}
-              style={inputStyle}
-              placeholder="ej: Juan Perez"
-              maxLength={20}
-            />
-          </div>
+              <label style={labelStyle}>Nombre de usuario</label>
+              <input
+                type="text"
+                value={regUser}
+                onChange={(e) => {
+                  const valor = e.target.value.replace(
+                    /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g,
+                    ""
+                  );
+                  setRegUser(valor);
+                }}
+                style={{
+                  ...inputStyle,
+                  borderColor: regUser && (regUser.trim().length < 3 || /\s{2,}/.test(regUser))
+                    ? "rgba(229,9,20,0.5)"
+                    : regUser && regUser.trim().length >= 3
+                      ? "rgba(76,175,80,0.5)"
+                      : "rgba(255,255,255,0.1)",
+                }}
+                placeholder="ej: Juan Perez"
+                maxLength={20}
+              />
+              {regUser && regUser.trim().length < 3 && (
+                <span style={{ fontSize: 11, color: "#f5a623" }}>
+                  Te faltan {3 - regUser.trim().length} carácter(es) más
+                </span>
+              )}
+              {regUser && /\s{2,}/.test(regUser) && (
+                <span style={{ fontSize: 11, color: "#e50914" }}>No dejes espacios dobles</span>
+              )}
+              {regUser && regUser.trim().length >= 3 && regUser.trim().length <= 20 && !/\s{2,}/.test(regUser) && (
+                <span style={{ fontSize: 11, color: "#4caf50" }}>✓ Nombre válido</span>
+              )}
+            </div>
 
-          <div style={{ marginBottom: 14 }}>
-            <label style={labelStyle}>Correo electrónico</label>
-            <input
-              type="email"
-              value={regEmail}
-              onChange={(e) => setRegEmail(e.target.value)}
-              style={inputStyle}
-              placeholder="correo@ejemplo.com"
-            />
-          </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={labelStyle}>Correo electrónico</label>
+              <input
+                type="email"
+                value={regEmail}
+                onChange={(e) => setRegEmail(e.target.value)}
+                style={{
+                  ...inputStyle,
+                  borderColor: regEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(regEmail)
+                    ? "rgba(229,9,20,0.5)"
+                    : regEmail && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(regEmail)
+                      ? "rgba(76,175,80,0.5)"
+                      : "rgba(255,255,255,0.1)",
+                }}
+                placeholder="correo@ejemplo.com"
+              />
+              {regEmail && !regEmail.includes("@") && (
+                <span style={{ fontSize: 11, color: "#f5a623" }}>Falta el @</span>
+              )}
+              {regEmail && regEmail.includes("@") && !regEmail.split("@")[1]?.includes(".") && (
+                <span style={{ fontSize: 11, color: "#f5a623" }}>Falta el dominio (ej: gmail.com)</span>
+              )}
+              {regEmail && regEmail.includes("@") && regEmail.split("@")[1]?.includes(".") && (regEmail.split("@")[1]?.split(".")[1]?.length ?? 0) < 2 && (
+                <span style={{ fontSize: 11, color: "#f5a623" }}>Dominio incompleto (ej: .com, .org)</span>
+              )}
+              {regEmail && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(regEmail) && (
+                <span style={{ fontSize: 11, color: "#4caf50" }}>✓ Correo válido</span>
+              )}
+            </div>
 
             <div style={{ marginBottom: 6 }}>
               <label style={labelStyle}>Contraseña</label>
@@ -296,7 +321,14 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
                 type="password"
                 value={regPass}
                 onChange={e => setRegPass(e.target.value)}
-                style={inputStyle}
+                style={{
+                  ...inputStyle,
+                  borderColor: regPass && regPass.length < 8
+                    ? "rgba(229,9,20,0.5)"
+                    : regPass && fortaleza.nivel === "fuerte"
+                      ? "rgba(76,175,80,0.5)"
+                      : "rgba(255,255,255,0.1)",
+                }}
                 placeholder="Mínimo 8 caracteres"
               />
             </div>
@@ -317,6 +349,20 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
                   ))}
                 </div>
                 <span style={{ fontSize: 11, color: fortaleza.color }}>{fortaleza.texto}</span>
+
+                <div style={{ marginTop: 6, display: "flex", flexDirection: "column", gap: 2 }}>
+                  {[
+                    { ok: regPass.length >= 8, texto: regPass.length >= 8 ? "8 caracteres ✓" : `Faltan ${8 - regPass.length} carácter(es) más` },
+                    { ok: /[A-Z]/.test(regPass), texto: /[A-Z]/.test(regPass) ? "Tiene mayúscula ✓" : "Agrega una letra MAYÚSCULA" },
+                    { ok: /[a-z]/.test(regPass), texto: /[a-z]/.test(regPass) ? "Tiene minúscula ✓" : "Agrega una letra minúscula" },
+                    { ok: /[0-9]/.test(regPass), texto: /[0-9]/.test(regPass) ? "Tiene número ✓" : "Agrega un número (0-9)" },
+                    { ok: /[!@#$%^&*(),.?\":{}|<>]/.test(regPass), texto: /[!@#$%^&*(),.?\":{}|<>]/.test(regPass) ? "Tiene carácter especial ✓" : "Agrega un símbolo (!@#$%...)" },
+                  ].map(r => (
+                    <span key={r.texto} style={{ fontSize: 11, color: r.ok ? "#4caf50" : "#f5a623" }}>
+                      {r.ok ? "✓" : "→"} {r.texto}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -330,12 +376,17 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
                   ...inputStyle,
                   borderColor: regPassConf && regPass !== regPassConf
                     ? "rgba(229,9,20,0.5)"
-                    : "rgba(255,255,255,0.1)",
+                    : regPassConf && regPass === regPassConf
+                      ? "rgba(76,175,80,0.5)"
+                      : "rgba(255,255,255,0.1)",
                 }}
                 placeholder="Repite la contraseña"
               />
               {regPassConf && regPass !== regPassConf && (
                 <span style={{ fontSize: 11, color: "#e50914" }}>Las contraseñas no coinciden</span>
+              )}
+              {regPassConf && regPass === regPassConf && (
+                <span style={{ fontSize: 11, color: "#4caf50" }}>✓ Las contraseñas coinciden</span>
               )}
             </div>
 
@@ -351,6 +402,9 @@ const LoginModal = ({ onClose }: { onClose: () => void }) => {
                 max={new Date().toISOString().split("T")[0]}
                 style={{ ...inputStyle, colorScheme: "dark" }}
               />
+              {!regFecha && regUser && regEmail && regPass && (
+                <span style={{ fontSize: 11, color: "#f5a623" }}>Selecciona tu fecha de nacimiento</span>
+              )}
             </div>
           </>
         )}
