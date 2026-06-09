@@ -9,10 +9,17 @@ services:
       POSTGRES_DB: netflick
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   backend:
     build: .
     ports:
       - "3000:3000"
+    depends_on:
+      - postgres
     environment:
-      DATABASE_URL: postgresql://postgres:qCUIVRmHswBKtenCjAKqxEKIfWflIZEQ@acela.proxy.rlwy.net:40714/railway
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/netflick
+
+volumes:
+  pgdata:

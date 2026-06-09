@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PeliculasService } from './peliculas.service';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import 'multer';
 
 cloudinary.config({
   cloud_name: 'dutpvet99',
