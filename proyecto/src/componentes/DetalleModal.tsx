@@ -89,7 +89,7 @@ const DetalleModal = ({
             <span style={{ color: "#aaa", fontSize: 13 }}> {pelicula.anio}</span>
             <span style={{ color: "#aaa", fontSize: 13 }}>DIRECTOR: {pelicula.director}</span>
             <span style={{ color: "#aaa", fontSize: 13 }}>⏱ {pelicula.duracion_min} min</span>
-            <span style={{ color: "#aaa", fontSize: 13 }}>SALA: {pelicula.sala}</span>
+            <span style={{ color: "#aaa", fontSize: 13 }}> {pelicula.sala}</span>
             <div style={{ marginLeft: "auto" }}>
               {puedeReservar ? (
                 pelicula.soloMayores18 && edad !== null && edad < 18 ? (
@@ -153,22 +153,44 @@ const DetalleModal = ({
             {tab === "actores" && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 16 }}>
                 {pelicula.actores.length === 0
-                  ? <p style={{ color: "#555" }}>Sin información de actores.</p>
-                  : pelicula.actores.map(a => (
-                    <div key={a.id} style={{
-                      background: "rgba(255,255,255,0.04)", borderRadius: 8,
-                      padding: 16, textAlign: "center",
+                ? <p style={{ color: "#555" }}>Sin información de actores.</p>
+                : pelicula.actores.map((a: any, i) => (
+                  <div key={i} style={{
+                    background: "rgba(255,255,255,0.04)",
+                    borderRadius: 8,
+                    padding: 16,
+                    textAlign: "center",
+                  }}>
+                    <div style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: "50%",
+                      background: "#e50914",
+                      margin: "0 auto 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      fontSize: 18,
                     }}>
-                      <div style={{
-                        width: 48, height: 48, borderRadius: "50%",
-                        background: "#e50914", margin: "0 auto 10px",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontWeight: 700, fontSize: 18,
-                      }}>{a.apellido[0]}</div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: 13 }}>{a.nombre} {a.apellido}</p>
-                      {a.personaje && <p style={{ margin: "4px 0 0", fontSize: 11, color: "#888" }}>como {a.personaje}</p>}
+                      {typeof a === "string"
+                        ? a.charAt(0).toUpperCase()
+                        : a.apellido?.charAt(0).toUpperCase() || "?"}
                     </div>
-                  ))}
+
+                    <p style={{ margin: 0, fontWeight: 600, fontSize: 13 }}>
+                      {typeof a === "string"
+                        ? a
+                        : `${a.nombre} ${a.apellido}`}
+                    </p>
+
+                    {typeof a !== "string" && a.personaje && (
+                      <p style={{ margin: "4px 0 0", fontSize: 11, color: "#888" }}>
+                        como {a.personaje}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
