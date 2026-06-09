@@ -172,15 +172,18 @@ const InnerApp = () => {
                               radial-gradient(circle at 80% 50%, rgba(229,9,20,0.05) 0%, transparent 50%)`,
           }} />
           <div style={{ position: "relative", textAlign: "center", padding: "0 24px" }}>
-            <p style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 90, color: "#e50914",
-              margin: "0 0 0px", letterSpacing: 8,
-              textShadow: "0 0 60px rgba(229,9,20,0.4)", lineHeight: 1,
-            }}>MINUIT CINEMA</p>
-            <p style={{ color: "#555", fontSize: 14, maxWidth: 380, margin: "0 auto 40px", lineHeight: 1.8 }}>
-              Consulta la cartelera, reserva tus entradas y disfruta de los mejores estrenos.
-              Inicia sesión para acceder.
+            <p
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: window.innerWidth < 768 ? 60 : 90,
+                color: "#e50914",
+                margin: "0 0 0px",
+                letterSpacing: window.innerWidth < 768 ? 4 : 8,
+                textShadow: "0 0 60px rgba(229,9,20,0.4)",
+                lineHeight: 1,
+              }}
+            >
+              {window.innerWidth < 768 ? "MINUIT" : "MINUIT CINEMA"}
             </p>
             <div style={{ display: "flex", gap: 32, justifyContent: "center", marginBottom: 40 }}>
               {[

@@ -153,7 +153,7 @@ const Estadisticas = ({
             </tbody>
           </table>
         )}
-        {/* Gráfico de barras: ingresos por película */}
+
         <h3 style={{ color: "#ccc", fontSize: 14, fontWeight: 600, marginBottom: 16, letterSpacing: 1, marginTop: 32 }}>
           INGRESOS POR PELÍCULA (Bs.)
         </h3>
