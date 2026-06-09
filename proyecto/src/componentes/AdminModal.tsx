@@ -159,6 +159,28 @@ const AdminModal = ({ pelicula, onGuardar, onClose }: {
             rows={3} style={{ ...input, resize: "none" }} placeholder="Descripción..." />
         </div>
 
+        {/* Actores */}
+        <div style={{ marginBottom: 14 }}>
+          <label style={lbl}>Actores</label>
+          <textarea
+            value={form.actores.join("\n")}
+            onChange={e =>
+              set(
+                "actores",
+                e.target.value
+                  .split("\n")
+                  .map(a => a.trim())
+                  .filter(Boolean)
+              )
+            }
+            rows={5}
+            style={{ ...input, resize: "vertical" }}
+            placeholder={`Anna Faris (Cindy Campbell)
+        Regina Hall (Brenda Meeks)
+        Marlon Wayans (Shorty Meeks)`}
+          />
+        </div>
+
         {/* Funciones: día → horarios */}
         <div style={{ marginBottom: 20 }}>
           <label style={{ ...lbl, marginBottom: 8 }}>Funciones — primero el día, luego sus horarios *</label>
@@ -185,7 +207,7 @@ const AdminModal = ({ pelicula, onGuardar, onClose }: {
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <span style={{ color: "#fff", fontSize: 13, fontWeight: 600 }}>
-                  📅 {formatoDia(f.dia)} <span style={{ color: "#666", fontWeight: 400 }}>({f.dia})</span>
+                 {formatoDia(f.dia)} <span style={{ color: "#666", fontWeight: 400 }}>({f.dia})</span>
                 </span>
                 <button onClick={() => eliminarDia(f.dia)}
                   style={{ background: "none", border: "none", color: "#e50914", fontSize: 12, cursor: "pointer" }}>
