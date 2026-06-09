@@ -188,6 +188,7 @@ const DetalleModal = ({
                       <p style={{ margin: "4px 0 0", fontSize: 11, color: "#888" }}>
                         como {a.personaje}
                       </p>
+                      
                     )}
                   </div>
                 ))}
