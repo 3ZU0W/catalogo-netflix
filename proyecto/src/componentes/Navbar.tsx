@@ -44,7 +44,6 @@ const Navbar = ({
         display: "flex", alignItems: "center",
         justifyContent: "space-between", height: 64,
       }}>
-        {/* Logo */}
         <button onClick={onVerCatalogo} style={{
           background: "none", border: "none", cursor: "pointer",
           fontFamily: "'Bebas Neue', sans-serif",
@@ -52,7 +51,6 @@ const Navbar = ({
           padding: 0, flexShrink: 0,
         }}>MINUIT CINEMA</button>
 
-        {/* Desktop Links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center", marginLeft: 32 }}>
             <NavBtn onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Inicio</NavBtn>
@@ -89,7 +87,6 @@ const Navbar = ({
         {/* Derecha */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
 
-          {/* Hamburguesa — solo móvil, con su propio menú */}
           {isMobile && usuario && (
             <div style={{ position: "relative" }}>
               <button onClick={() => { setHamburguesaOpen(!hamburguesaOpen); setAvatarOpen(false); }} style={{
@@ -132,7 +129,6 @@ const Navbar = ({
             </div>
           )}
 
-          {/* Búsqueda */}
           {searchOpen ? (
             <input
               autoFocus
