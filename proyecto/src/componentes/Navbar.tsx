@@ -44,13 +44,22 @@ const Navbar = ({
         display: "flex", alignItems: "center",
         justifyContent: "space-between", height: 64,
       }}>
-        <button onClick={onVerCatalogo} style={{
-          background: "none", border: "none", cursor: "pointer",
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: 28, color: "#e50914", letterSpacing: 3,
-          padding: 0, flexShrink: 0,
-        }}>MINUIT CINEMA</button>
-
+        <button
+          onClick={onVerCatalogo}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: isMobile ? 24 : 28,
+            color: "#e50914",
+            letterSpacing: isMobile ? 2 : 3,
+            padding: 0,
+            flexShrink: 0,
+          }}
+        >
+          {isMobile ? "MINUIT" : "MINUIT CINEMA"}
+        </button>
         {!isMobile && (
           <div style={{ display: "flex", gap: 20, flexGrow: 1, alignItems: "center", marginLeft: 32 }}>
             <NavBtn onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Inicio</NavBtn>
