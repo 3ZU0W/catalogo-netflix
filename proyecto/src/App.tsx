@@ -178,10 +178,6 @@ const InnerApp = () => {
               margin: "0 0 0px", letterSpacing: 8,
               textShadow: "0 0 60px rgba(229,9,20,0.4)", lineHeight: 1,
             }}>MINUIT CINEMA</p>
-            <p style={{ color: "#888", fontSize: 15, margin: "0 0 12px", letterSpacing: 3, textTransform: "uppercase" }}>
-              Tu cine, cuando quieras
-            </p>
-            <div style={{ width: 60, height: 2, background: "#e50914", margin: "0 auto 32px" }} />
             <p style={{ color: "#555", fontSize: 14, maxWidth: 380, margin: "0 auto 40px", lineHeight: 1.8 }}>
               Consulta la cartelera, reserva tus entradas y disfruta de los mejores estrenos.
               Inicia sesión para acceder.
@@ -190,7 +186,6 @@ const InnerApp = () => {
               {[
                 { num: peliculas.filter(p => p.activo && p.estado === "en_cartelera").length, label: "En cartelera" },
                 { num: peliculas.filter(p => p.activo && p.estado === "proximo_estreno").length, label: "Próximos estrenos" },
-                { num: peliculas.filter(p => p.activo).reduce((s, p) => s + p.horarios.length, 0), label: "Funciones diarias" },
               ].map(stat => (
                 <div key={stat.label} style={{ textAlign: "center" }}>
                   <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 42, color: "#e50914", margin: 0, lineHeight: 1 }}>

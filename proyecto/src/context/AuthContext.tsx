@@ -21,7 +21,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// ── Helpers localStorage ──────────────────────────────────────
 const cargarDelStorage = () => {
   try {
     const u = localStorage.getItem("usuario");
