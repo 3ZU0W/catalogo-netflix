@@ -11,7 +11,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<"ok" | "credenciales" | "inactivo">;
   logout: () => Promise<void>;
   registrar: (datos: Omit<Usuario, "id" | "activo" | "fechaRegistro">) => Promise<"ok" | "duplicado">;
-  agregarReserva: (r: Omit<Reserva, "id" | "estado">) => Promise<void>;
+  agregarReserva: (r: Omit<Reserva, "id" | "estado" | "fecha">) => Promise<void>;
   cancelarReserva: (id: number) => Promise<void>;
   cargarLogs: () => Promise<void>;
   cargarReservas: () => Promise<void>;
@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const agregarReserva = useCallback(async (r: Omit<Reserva, "id" | "estado">) => {
+  const agregarReserva = useCallback(async (r: Omit<Reserva, "id" | "estado" | "fecha">) => {
     if (!token || !usuario) return;
     const nueva = await api.crearReserva({
       ...r,

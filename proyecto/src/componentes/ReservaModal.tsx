@@ -83,7 +83,6 @@ const ReservaModal = ({ pelicula, onClose }: { pelicula: Pelicula; onClose: () =
         horario,
         asientos,
         total,
-        fecha: new Date().toLocaleDateString("es-BO"),
         sala: pelicula.sala,
       });
       setConfirmado(true);
