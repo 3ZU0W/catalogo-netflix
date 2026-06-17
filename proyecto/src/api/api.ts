@@ -5,6 +5,29 @@ const headers = (token?: string) => ({
   ...(token ? { Authorization: `Bearer ${token}` } : {}),
 });
 
+// Helper central: revisa res.ok antes de parsear.
+// Si la respuesta no es OK, lanza un Error con el mensaje del backend
+// (o uno genérico) en vez de devolver el objeto de error como si fueran datos válidos.
+async function parseResponse(res: Response) {
+  let data: any = null;
+  try {
+    data = await res.json();
+  } catch {
+    // body vacío o no es JSON
+  }
+
+  if (!res.ok) {
+    const mensaje =
+      data?.message ||
+      (res.status === 401
+        ? 'Sesión expirada o no autorizada, vuelve a iniciar sesión'
+        : `Error ${res.status}`);
+    throw new Error(mensaje);
+  }
+
+  return data;
+}
+
 export const api = {
   // Auth
   login: async (username: string, password: string) => {
@@ -43,7 +66,7 @@ export const api = {
   // Películas
   getPeliculas: async () => {
     const res = await fetch(`${BASE}/peliculas`);
-    return res.json();
+    return parseResponse(res);
   },
 
   crearPelicula: async (datos: unknown, token: string) => {
@@ -52,7 +75,7 @@ export const api = {
       headers: headers(token),
       body: JSON.stringify(datos),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   actualizarPelicula: async (id: number, datos: unknown, token: string) => {
@@ -61,14 +84,15 @@ export const api = {
       headers: headers(token),
       body: JSON.stringify(datos),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   eliminarPelicula: async (id: number, token: string) => {
-    await fetch(`${BASE}/peliculas/${id}`, {
+    const res = await fetch(`${BASE}/peliculas/${id}`, {
       method: 'DELETE',
       headers: headers(token),
     });
+    return parseResponse(res);
   },
 
   valorarPelicula: async (id: number, datos: unknown, token: string) => {
@@ -77,7 +101,7 @@ export const api = {
       headers: headers(token),
       body: JSON.stringify(datos),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   // Reservas
@@ -87,51 +111,63 @@ export const api = {
       headers: headers(token),
       body: JSON.stringify(datos),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   getMisReservas: async (usuarioId: number, token: string) => {
     const res = await fetch(`${BASE}/reservas/usuario/${usuarioId}`, {
       headers: headers(token),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   cancelarReserva: async (id: number, token: string) => {
-    await fetch(`${BASE}/reservas/${id}`, {
+    const res = await fetch(`${BASE}/reservas/${id}`, {
       method: 'DELETE',
       headers: headers(token),
     });
+    return parseResponse(res);
   },
 
   getTodasReservas: async (token: string) => {
     const res = await fetch(`${BASE}/reservas`, {
       headers: headers(token),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   eliminarReservaAdmin: async (id: number, token: string) => {
-    await fetch(`${BASE}/reservas/${id}/eliminar`, {
+    const res = await fetch(`${BASE}/reservas/${id}/eliminar`, {
       method: 'DELETE',
       headers: headers(token),
     });
+    return parseResponse(res);
   },
 
+  // OJO: esta función ahora SIEMPRE devuelve un array.
+  // Si hay un error (401, 403, 500, etc.), lo logueamos en consola
+  // y devolvemos [] en vez de propagar un objeto de error que rompería
+  // los .map()/.find() del componente que la consume.
   getOcupacion: async (peliculaId: number, token: string) => {
-    const res = await fetch(`${BASE}/reservas/ocupacion/${peliculaId}`, {
-      headers: headers(token),
-    });
-    return res.json();
+    try {
+      const res = await fetch(`${BASE}/reservas/ocupacion/${peliculaId}`, {
+        headers: headers(token),
+      });
+      const data = await parseResponse(res);
+      return Array.isArray(data) ? data : [];
+    } catch (err) {
+      console.error('Error al obtener ocupación:', err);
+      return [];
+    }
   },
 
   getLogs: async (token: string) => {
     const res = await fetch(`${BASE}/auth/logs`, {
       headers: headers(token),
     });
-    return res.json();
+    return parseResponse(res);
   },
-  
+
   subirPortada: async (id: number, archivo: File, token: string) => {
     const formData = new FormData();
     formData.append('file', archivo);
@@ -140,34 +176,39 @@ export const api = {
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
-    return res.json();
+    return parseResponse(res);
   },
-  
+
   limpiarLogs: async (token: string) => {
-    await fetch(`${BASE}/auth/logs`, {
+    const res = await fetch(`${BASE}/auth/logs`, {
       method: 'DELETE',
       headers: headers(token),
     });
+    return parseResponse(res);
   },
 
   getComentarios: async () => {
     const res = await fetch(`${BASE}/comentarios`);
-    return res.json();
+    return parseResponse(res);
   },
 
-  crearComentario: async (datos: { usuarioNombre: string; texto: string; estrellas: number }, token: string) => {
+  crearComentario: async (
+    datos: { usuarioNombre: string; texto: string; estrellas: number },
+    token: string,
+  ) => {
     const res = await fetch(`${BASE}/comentarios`, {
       method: 'POST',
       headers: headers(token),
       body: JSON.stringify(datos),
     });
-    return res.json();
+    return parseResponse(res);
   },
 
   eliminarComentario: async (id: number, token: string) => {
-    await fetch(`${BASE}/comentarios/${id}`, {
+    const res = await fetch(`${BASE}/comentarios/${id}`, {
       method: 'DELETE',
       headers: headers(token),
     });
+    return parseResponse(res);
   },
 };
